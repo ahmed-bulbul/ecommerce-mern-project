@@ -14,3 +14,4 @@ npm i http-errors
 
 https://www.npmjs.com/package/xss-clean
 https://www.npmjs.com/package/express-rate-limit
+https://www.npmjs.com/package/dotenv
