@@ -4,7 +4,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const createError = require('http-errors');
 const xssClean = require('xss-clean')
-const rateLimit = require('express-rate-limit')
+const rateLimit = require('express-rate-limit');
+const userRouter = require("./routers/userRouter");
 
 const rateLimiter = rateLimit({
     windowMs: 1 * 60 * 1000, // 1 minute
@@ -17,6 +18,8 @@ app.use(morgan('dev'));
 app.use(rateLimiter);
 app.use(bodyParser.json());
 app.use(express.urlencoded({extended:true}));
+
+app.use('/api/user',userRouter)
 
 const isLoggedIn = (req,res,next)=>{
     console.log("isLoggedin middleware is called....");
@@ -38,14 +41,7 @@ app.get("/", (req, res) => {
     });
 });
 
-// test 
-app.get("/api/user",isLoggedIn, (req, res) => {
-    console.log("api/user is called....");
-    console.log(req.body.id)
-    res.status(200).send({
-        message: "User profile is returned",
-    });
-});
+
 
 //client error handling
 app.use((req,res,next)=>{
